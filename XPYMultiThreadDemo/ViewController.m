@@ -234,7 +234,7 @@
         _items = @[@"GCD栅栏函数处理同步任务先后顺序",
                    @"GCD栅栏函数处理异步任务先后顺序",
                    @"GCD队列组处理先完成多任务再完成后面任务",
-                   @"GCD队列组用group_enter和group_leave处理多个异步网络请求adskfkdafkjadshfkadfhkadlsfhkdasfhdsak",
+                   @"GCD队列组用group_enter和group_leave处理多个异步网络请求",
                    @"GCD队列组用信号量处理多个异步网络请求"];
     }
     return _items;
