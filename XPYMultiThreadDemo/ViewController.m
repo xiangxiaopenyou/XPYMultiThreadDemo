@@ -183,6 +183,34 @@
         });
     });
 }
+- (void)operation {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    queue.maxConcurrentOperationCount = 4;
+    NSBlockOperation *lastOperation = [NSBlockOperation blockOperationWithBlock:^{
+        sleep(1);
+        NSLog(@"complete last operation");
+    }];
+    NSBlockOperation *requestOperation1 = [NSBlockOperation blockOperationWithBlock:^{
+        sleep(4);
+        NSLog(@"complete request1");
+    }];
+    NSBlockOperation *requestOperation2 = [NSBlockOperation blockOperationWithBlock:^{
+        sleep(2);
+        NSLog(@"complete request2");
+    }];
+    NSBlockOperation *requestOperation3 = [NSBlockOperation blockOperationWithBlock:^{
+        sleep(3);
+        NSLog(@"complete request3");
+    }];
+    [lastOperation addDependency:requestOperation1];
+    [lastOperation addDependency:requestOperation2];
+    [lastOperation addDependency:requestOperation3];
+    [queue addOperation:lastOperation];
+    [queue addOperation:requestOperation1];
+    [queue addOperation:requestOperation2];
+    [queue addOperation:requestOperation3];
+    
+}
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -206,23 +234,27 @@
         case 0: {
             [self barrierSync];
         }
-        break;
+            break;
         case 1: {
             [self barrierAsync];
         }
-        break;
+            break;
         case 2: {
             [self groupQueue];
         }
-        break;
+            break;
         case 3: {
             [self groupAsyncRequest];
         }
-        break;
+            break;
         case 4: {
             [self semaphoreRequest];
         }
-        break;
+            break;
+        case 5: {
+            [self operation];
+        }
+            break;
         default:
         break;
     }
@@ -235,7 +267,8 @@
                    @"GCD栅栏函数处理异步任务先后顺序",
                    @"GCD队列组处理先完成多任务再完成后面任务",
                    @"GCD队列组用group_enter和group_leave处理多个异步网络请求",
-                   @"GCD队列组用信号量处理多个异步网络请求"];
+                   @"GCD队列组用信号量处理多个异步网络请求",
+                   @"NSOperationQueue处理多个操作完成后处理最后任务"];
     }
     return _items;
 }
