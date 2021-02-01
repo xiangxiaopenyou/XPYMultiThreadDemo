@@ -17,6 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self barrierSync];
 }
 
 /**
@@ -24,9 +26,9 @@
  */
 - (void)barrierSync {
     //并行队列
-    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_CONCURRENT);
+    //dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_CONCURRENT);
     //串行队列
-    //dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_SERIAL);
     dispatch_sync(queue, ^{
         sleep(2);
         NSLog(@"task1 %@", [NSThread currentThread]);
